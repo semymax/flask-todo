@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Minhas Tarefas{% endblock %}
+{% block content %}
+  <h1 class="mb-4">Minhas Tarefas</h1>
+
+  <form action="{{ url_for('main.add') }}" method="post" class="input-group mb-3">
+    <input
+      type="text"
+      name="title"
+      class="form-control"
+      placeholder="Nova tarefa..."
+      required
+    />
+    <button class="btn btn-primary">
+      <i class="fas fa-plus"></i>
+       Adicionar
+    </button>
+  </form>
+
+  <h2>Tarefas pendentes</h2>
+  <ul class="list-group mb-4">
+    {% for task in pending_tasks %}
+      <li class="list-group-item d-flex justify-content-between align-text-center">
+        <div>
+          {{ task.title }} <br>
+          <small class="text-muted">Criada em: {{ task.created_at.strftime("%d/%m/%Y %H:%M") }}</small>
+        </div>
+        <div>
+          <a href="{{ url_for('main.complete', task_id=task.id) }}" class="btn btn-sm btn-success">
+            <i class="fas fa-check"></i>
+            <!-- Concluir -->
+          </a>
+          <a href="{{ url_for('main.delete', task_id=task.id) }}" class="btn btn-sm btn-danger">
+            <i class="fas fa-trash"></i>
+          <!-- Excluir -->
+          </a>
+        </div>
+      </li>
+    {% else %}
+      <li class="list-group-item text-muted">Nenhuma tarefa pendente</li>
+    {% endfor %}
+  </ul>
+
+  <h2>Tarefas concluídas</h2>
+  <ul class="list-group">
+    {% for task in completed_tasks %}
+      <li class="list-group-item d-flex justify-content-between align-text-center">
+        <div>
+          <s>{{ task.title }}</s> <br>
+          <small class="text-muted">Criada em: {{ task.created_at.strftime("%d/%m/%Y %H:%M") }}</small>
+        </div>
+        <div>
+          <a href="{{ url_for('main.complete', task_id=task.id) }}" class="btn btn-sm btn-warning">
+            <i class="fas fa-undo"></i>
+            <!-- Desmarcar -->
+          </a>
+          <a href="{{ url_for('main.delete', task_id=task.id) }}" class="btn btn-sm btn-danger">
+            <i class="fas fa-trash"></i>
+            <!-- Excluir -->
+          </a>
+        </div>
+      </li>
+    {% else %}
+      <li class="list-group-item text-muted">Nenhuma tarefa concluída</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
