@@ -4,4 +4,4 @@ venv/
 .env
 *.db
 .vscode
-*/excluidos
+excluidos
